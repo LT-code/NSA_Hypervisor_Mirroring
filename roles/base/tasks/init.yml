@@ -1,0 +1,19 @@
+---
+- name: disable beginning message subscription
+  shell: sed -i.bak "s/data.status !== 'Active'/false/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js && systemctl restart pveproxy.service
+
+- name: disable entreprise packages
+  lineinfile:
+    dest: /etc/apt/sources.list.d/pve-enterprise.list
+    regexp: "^deb https://enterprise.proxmox.com/debian/pve"
+    line: "deb http://download.proxmox.com/debian buster pve-no-subscription"
+    state: present
+
+- name: update apt cache
+  apt:
+    cache_valid_time: 600
+    
+- name: copy hosts file
+  template:
+    src: hosts.j2
+    dest: /etc/hosts

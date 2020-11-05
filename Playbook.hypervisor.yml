@@ -1,0 +1,10 @@
+- hosts: hypervisor
+  become_user: root
+  become_method: su
+  pre_tasks:
+    - name: dispay hosts
+      debug:
+        msg: "{{inventory_hostname}} {{ansible_host}}"
+  roles:
+    - base
+    - glusterfs

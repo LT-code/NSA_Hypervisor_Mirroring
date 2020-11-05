@@ -1,0 +1,4 @@
+[local_hypervisor]
+10.0.2.21 ansible_host=localhost ansible_port=8021
+10.0.2.22 ansible_host=localhost ansible_port=8022
+10.0.2.23 ansible_host=localhost ansible_port=8023

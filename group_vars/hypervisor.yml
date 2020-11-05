@@ -1,0 +1,17 @@
+---
+ansible_ssh_user: tclo
+ansible_ssh_pass: MotDePasse
+ansible_become_pass: MotDePasse
+ansible_become: yes
+
+pve_cluster_name: TCLOCLUSTER
+
+master_machine: "{{groups.all[0]}}"
+
+gluster_cmd: /sbin/gluster
+gluster_mount_dir: /mnt/isofiles
+gluster_brick_dir: /mnt/isofiles/briks
+gluster_brick_name: iso-replica
+gluster_storage_name: iso-replica-files
+
+gluster_brick_config: "replica {{groups.hypervisor|length}} transport tcp"
