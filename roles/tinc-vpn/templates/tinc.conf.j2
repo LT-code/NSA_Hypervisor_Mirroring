@@ -1,0 +1,9 @@
+Name = {{hostvars[inventory_hostname].ansible_hostname}}
+Device = /dev/net/tun
+AddressFamily = ipv4
+Mode = switch
+{% for host in groups.all %}
+{% if hostvars[host].number < hostvars[inventory_hostname].number %}
+ConnectTo = {{ hostvars[host].ansible_hostname }}
+{% endif %}
+{% endfor %}

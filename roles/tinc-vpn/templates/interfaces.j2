@@ -1,0 +1,30 @@
+auto lo
+iface lo inet loopback
+
+iface enp1s0 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+address {{inventory_hostname}}/24
+        gateway 51.159.52.1
+        bridge-ports enp1s0
+        bridge-stp off
+        bridge-fd 0
+
+auto {{vpn_interface}}
+iface {{vpn_interface}} inet static
+        address {{vpn_ip}}/24
+        bridge-ports none
+        bridge_ports dummy0
+        bridge-stp off
+        bridge-fd 0
+
+        post-up echo 1 > /proc/sys/net/ipv4/ip_forward
+        post-up   iptables -t nat -A POSTROUTING -s '{{vpn_ip_network}}/24' -o vmbr0 -j MASQUERADE
+        post-down iptables -t nat -D POSTROUTING -s '{{vpn_ip_network}}/24' -o vmbr0 -j MASQUERADE
+
+        #post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 3000 -j DNAT --to 192.168.100.100:3000
+        #post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 3000 -j DNAT --to 192.168.100.100:3000
+
+        #post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 9090 -j DNAT --to 192.168.100.100:9090
+        #post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 9090 -j DNAT --to 192.168.100.100:9090

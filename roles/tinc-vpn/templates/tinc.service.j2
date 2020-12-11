@@ -1,0 +1,15 @@
+[Unit]
+Description=Tinc net {{ netname }}
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/tinc/{{ netname }}
+ExecStart=/usr/sbin/tincd -n {{ netname }} -D -d3
+ExecReload=/usr/sbin/tincd -n {{ netname }} -kHUP
+TimeoutStopSec=5
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target

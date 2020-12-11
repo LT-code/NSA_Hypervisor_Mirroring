@@ -1,0 +1,14 @@
+---
+- import_tasks: service.yml
+
+- import_tasks: config.yml
+
+- import_tasks: network.yml
+
+- name: ensure tinc is started
+  service: >
+    name=tinc
+    enabled=yes
+    state=restarted
+    pattern=tincd -n {{ netname }}
+
