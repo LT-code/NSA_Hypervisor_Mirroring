@@ -1,0 +1,36 @@
+---
+- name: Ensure pve_exporter dir exist.
+  file:
+    path: /usr/share/pve_exporter/
+    state: directory
+    owner: root
+    group: www-data
+    mode: 0775
+
+- name: Copy exporter configuration
+  template:
+    src: exporter.yml.j2
+    dest: /usr/share/pve_exporter/pve_exporter.yml
+    owner: root
+    group: root
+    mode: '0600'
+  when: add_user_pve.changed or add_group_monitoring.changed
+
+- name: Copy exporter service
+  template:
+    src: exporter.service.j2
+    dest: /etc/systemd/system/pve_exporter.service
+    owner: root
+    group: root
+    mode: '0644'
+  register: exporter_service_file
+
+- name: systemctl daemon-reload
+  shell: systemctl daemon-reload
+  when: exporter_service_file.changed
+
+- name: start pve_exporter
+  service:
+    name: pve_exporter
+    state: started
+    enabled: yes

@@ -1,0 +1,40 @@
+---
+- name: Add group monitoring
+  shell: |
+    /usr/sbin/pveum groupadd monitoring -comment 'Monitoring group'
+    /usr/sbin/pveum aclmod / -group monitoring -role PVEAuditor
+  register: add_group_monitoring
+  changed_when: "add_group_monitoring.stderr == ''"
+  when: inventory_hostname == groups.all[0]
+
+- name: Add user pve_exporter
+  shell: /usr/sbin/pveum useradd pve_exporter@pve
+  register: add_user_pve
+  failed_when: "'already exists' not in add_user_pve.stderr and add_user_pve.stderr != ''"
+  changed_when: "add_user_pve.stderr == ''"
+  when: inventory_hostname == groups.all[0]
+
+- name: Add user pve_exporter to group monitoring
+  shell: /usr/sbin/pveum usermod pve_exporter@pve -group monitoring
+  when: inventory_hostname == groups.all[0]
+  when: add_user_pve.changed or add_group_monitoring.changed
+
+- name: Generate password for pve_exporter
+  set_fact:
+    tmp_password: "{{ lookup('password', '/tmp/passwordfile chars=ascii_letters,digits,hexdigits,punctuation') }}"
+  when: inventory_hostname == groups.all[0] and add_user_pve.changed or add_group_monitoring.changed
+
+- set_fact:
+    exporter_password: "{{ tmp_password }}"
+  delegate_to: "{{ item }}"
+  with_items: "{{ groups.all }}"
+  run_once: yes
+  when: inventory_hostname == groups.all[0] and add_user_pve.changed or add_group_monitoring.changed
+
+- name: Execute the script
+  expect:
+    command: /usr/sbin/pveum passwd pve_exporter@pve
+    responses:
+      "Enter new password": "{{exporter_password}}"
+      "Retype new password": "{{exporter_password}}"
+  when: inventory_hostname == groups.all[0] and add_user_pve.changed or add_group_monitoring.changed

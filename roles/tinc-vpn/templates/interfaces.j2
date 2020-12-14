@@ -23,8 +23,8 @@ iface {{vpn_interface}} inet static
         post-up   iptables -t nat -A POSTROUTING -s '{{vpn_ip_network}}/24' -o vmbr0 -j MASQUERADE
         post-down iptables -t nat -D POSTROUTING -s '{{vpn_ip_network}}/24' -o vmbr0 -j MASQUERADE
 
-        #post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 3000 -j DNAT --to 192.168.100.100:3000
-        #post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 3000 -j DNAT --to 192.168.100.100:3000
+        post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 3000 -j DNAT --to 10.10.10.100:3000
+        post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 3000 -j DNAT --to 10.10.10.100:3000
 
-        #post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 9090 -j DNAT --to 192.168.100.100:9090
-        #post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 9090 -j DNAT --to 192.168.100.100:9090
+iface {{vpn_interface}} inet static
+  address {{vpn_gateway}}/24

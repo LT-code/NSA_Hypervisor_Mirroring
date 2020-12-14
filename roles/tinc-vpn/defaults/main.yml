@@ -4,5 +4,7 @@ physical_ip: "{{ ansible_eth1.ipv4.address }}"
 vpn_interface: vmbr4
 vpn_ip_network: 10.10.10.0
 
+vpn_gateway: 10.10.10.1
+
 vpn_netmask: 255.255.255.0
 vpn_subnet_cidr_netmask: 32

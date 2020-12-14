@@ -8,5 +8,6 @@
   roles:
     #- base
     #- glusterfs
-    - tinc-vpn
+    #- tinc-vpn
+    - monitoring
 

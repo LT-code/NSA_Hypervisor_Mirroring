@@ -1,0 +1,12 @@
+---
+- name: Install python pip package
+  apt:
+    name: python-pip
+    state: present
+
+- name: Install pve-exporter python package
+  pip:
+    name: prometheus-pve-exporter
+    state: present
+
+
