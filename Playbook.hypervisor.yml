@@ -6,8 +6,8 @@
       debug:
         msg: "{{inventory_hostname}} {{ansible_host}}"
   roles:
-    #- base
-    #- glusterfs
-    #- tinc-vpn
+    - base
+    - glusterfs
+    - tinc-vpn
     - monitoring
 

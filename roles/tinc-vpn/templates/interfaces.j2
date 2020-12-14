@@ -26,5 +26,17 @@ iface {{vpn_interface}} inet static
         post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 3000 -j DNAT --to 10.10.10.100:3000
         post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 3000 -j DNAT --to 10.10.10.100:3000
 
+        post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 3001 -j DNAT --to 10.10.10.111:3306
+        post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 3001 -j DNAT --to 10.10.10.111:3306
+
+        post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 3002 -j DNAT --to 10.10.10.112:3306
+        post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 3002 -j DNAT --to 10.10.10.112:3306
+
+        post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 3003 -j DNAT --to 10.10.10.113:3306
+        post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 3003 -j DNAT --to 10.10.10.113:3306
+
+        post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 8080 -j DNAT --to 10.10.10.100:8080
+        post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 8080 -j DNAT --to 10.10.10.100:8080
+
 iface {{vpn_interface}} inet static
   address {{vpn_gateway}}/24
