@@ -1,8 +1,0 @@
-- hosts: local_hypervisor
-  #pre_tasks:
-  #  - name:
-  #    debug: 
-  #      msg: "{{hostvars}}"
-  roles:
-    - base
-    - glusterfs
