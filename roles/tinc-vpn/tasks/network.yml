@@ -16,10 +16,10 @@
     group: root
     mode: '0644'
 
-- name: restart networking
+- name: ensure tinc is started
   service: >
-    name=networking
+    name=tinc
+    enabled=yes
     state=restarted
-  notify:
-  - restart tinc
+    pattern=tincd -n {{ netname }}
 

@@ -10,4 +10,5 @@
     - glusterfs
     - tinc-vpn
     - monitoring
+    - backups
 

@@ -1,4 +1,4 @@
 [hypervisor]
-51.159.59.228 ansible_hostname=hypervisor1 number=1 vpn_ip=10.10.10.11
-51.159.59.241 ansible_hostname=hypervisor2 number=2 vpn_ip=10.10.10.12
-51.159.52.148 ansible_hostname=hypervisor3 number=3 vpn_ip=10.10.10.13
+51.159.59.228 ansible_hostname=hypervisor1 number=1 vpn_ip=10.10.10.11 ftp_backup=sd-161594:MotDePasse@dedibackup-dc3.online.net
+51.159.59.241 ansible_hostname=hypervisor2 number=2 vpn_ip=10.10.10.12 ftp_backup=sd-161607:MotDePasse@dedibackup-dc3.online.net
+51.159.52.148 ansible_hostname=hypervisor3 number=3 vpn_ip=10.10.10.13 ftp_backup=sd-161610:MotDePasse@dedibackup-dc3.online.net

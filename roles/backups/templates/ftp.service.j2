@@ -1,0 +1,12 @@
+[Unit]
+Description=S3 Storage
+After=network.target
+
+[Mount]
+What=curlftpfs#{{ftp_backup}}
+Where={{backup_directory}}/dump
+Type=fuse
+Options=rw,allow_root,direct_io,hard_remove,big_writes
+
+[Install]
+WantedBy=multi-user.target

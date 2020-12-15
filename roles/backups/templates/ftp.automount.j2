@@ -1,0 +1,11 @@
+[Unit]
+Description=ftp share
+Requires=network-online.target
+After=network-online.service
+
+[Automount]
+Where={{backup_directory}}/dump
+TimeoutIdleSec=30
+
+[Install]
+WantedBy=multi-user.target
