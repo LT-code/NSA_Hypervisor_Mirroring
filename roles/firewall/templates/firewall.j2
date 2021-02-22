@@ -1,0 +1,49 @@
+[OPTIONS]
+
+enable: 0
+
+[ALIASES]
+
+mariadb-1 10.10.10.111
+mariadb-3 10.10.10.113
+mariadb-2 10.10.10.112
+hypervisor2 51.159.59.241
+vpn-hypervisor3 10.10.10.13
+hypervisor1 51.159.59.228
+vpn-hypervisor2 10.10.10.12
+vpn-hypervisor1 10.10.10.11
+Monitoring 10.10.10.100
+hypervisor3 51.159.52.148
+
+[IPSET hypervisors]
+
+hypervisor1
+hypervisor2
+hypervisor3
+
+[IPSET mariadb]
+
+mariadb-1
+mariadb-2
+mariadb-3
+
+[IPSET vpn]
+
+vpn-hypervisor1
+vpn-hypervisor2
+vpn-hypervisor3
+
+[RULES]
+
+|IN ACCEPT -p icmp -log nolog
+IN ACCEPT -source +mariadb -dest +mariadb -p tcp -dport 3306 -sport 3306 -log notice # Allow mariadb replication
+IN ACCEPT -source monitoring -dest +vpn -p tcp -dport 9221 -log notice # Monitoring exporter pve
+IN ACCEPT -source +hypervisors -dest +hypervisors -p udp -dport 24007,24008 -log notice # Glusterfs management
+IN ACCEPT -source +hypervisors -dest +hypervisors -p tcp -dport 49152,49154 -log nolog # Glusterfs nodes
+IN ACCEPT -source +hypervisors -dest +hypervisors -p udp -dport 655 -sport 655 -log notice # Tinc vpn connection
+IN ACCEPT -dest +hypervisors -p tcp -dport 22 -log notice # Ssh connection
+IN ACCEPT -dest +hypervisors -p tcp -dport 8006 -log notice # Web proxmox admin
+IN ACCEPT -dest +hypervisors -p tcp -dport 3003 -log notice # Access to mariadb slave 2
+IN ACCEPT -dest +hypervisors -p tcp -dport 3002 -log notice # Access to mariadb slave 1
+IN ACCEPT -dest +hypervisors -p tcp -dport 3001 -log notice # Access to mariadb master
+IN ACCEPT -dest +hypervisors -p tcp -dport 3000 -log notice # Access to  grafana

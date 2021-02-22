@@ -1,0 +1,4 @@
+- name: copy firewall file
+  template:
+    src: firewall.j2
+    dest: /etc/pve/firewall/cluster.fw
